@@ -2,6 +2,7 @@ import * as React from "react";
 import {View,TextInput,StyleSheet, TouchableOpacity, Alert,Text,Modal,ScrollView,KeyboardAvoidingView} from "react-native";
 import firebase from "firebase";
 import db from "../config";
+import MyHeader from "../components/MyHeader"
 
 export default class SignUpLoginScreen extends React.Component{
 
@@ -23,7 +24,7 @@ export default class SignUpLoginScreen extends React.Component{
     userLogin = (username, password)=>{
         firebase.auth().signInWithEmailAndPassword(username, password)
         .then(()=>{
-            return Alert.alert("Successfully Login")
+            this.props.navigation.navigate("AppTabNavigator")
         })
         .catch((error)=>{
             var errorCode = error.code;
@@ -184,7 +185,7 @@ export default class SignUpLoginScreen extends React.Component{
         return(
             <View style={[styles.container,{flex:1,marginTop:0}]}>
               { this.showModal()}
-                <Text style={[styles.text,{fontSize:35}]}>Barter App</Text>
+                <MyHeader/>
 
                 <TextInput
                     placeholder="abc@email.com"
@@ -201,7 +202,7 @@ export default class SignUpLoginScreen extends React.Component{
                     placeholder="password"
                     secureTextEntry={true}
                     style={styles.input}
-                    value={this.state.emailId}
+                    value={this.state.password}
                     onChangeText={(text)=>{
                         this.setState({
                             password:text
@@ -234,7 +235,7 @@ export default class SignUpLoginScreen extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        marginTop:100,
+       
         alignItems: 'center',
         backgroundColor:'#E0EEF0'
     },
