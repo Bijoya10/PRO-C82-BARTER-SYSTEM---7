@@ -1,11 +1,10 @@
 import * as React from "react";
-import {View,TextInput,StyleSheet, TouchableOpacity, Alert,Text,Modal,ScrollView,KeyboardAvoidingView} from "react-native";
+import {View,TextInput,StyleSheet,TouchableOpacity,Alert,Text,Modal,ScrollView,KeyboardAvoidingView} from "react-native";
 import firebase from "firebase";
 import db from "../config";
-import MyHeader from "../components/MyHeader"
+import MyHeader from "../components/MyHeader";
 
 export default class SignUpLoginScreen extends React.Component{
-
     constructor(){
         super();
         this.state={
@@ -24,7 +23,7 @@ export default class SignUpLoginScreen extends React.Component{
     userLogin = (username, password)=>{
         firebase.auth().signInWithEmailAndPassword(username, password)
         .then(()=>{
-            this.props.navigation.navigate("AppTabNavigator")
+            this.props.navigation.navigate("HomeScreen");
         })
         .catch((error)=>{
             var errorCode = error.code;
@@ -56,10 +55,7 @@ export default class SignUpLoginScreen extends React.Component{
                 userName:this.state.userName,
             })
             return("User added successfully");
-        }
-        
-
-        
+        }        
     }
 
     showModal=()=>{ 
@@ -73,9 +69,10 @@ export default class SignUpLoginScreen extends React.Component{
                 >
                     <ScrollView>
                         <KeyboardAvoidingView>
+                        <MyHeader/>
                             <TextInput 
                                 placeholder={"First name"}
-                                style={styles.inputModal}
+                                style={styles.input}
                                 value={this.state.firstName}
                                 onChangeText={(text)=>{
                                     this.setState({
@@ -85,7 +82,7 @@ export default class SignUpLoginScreen extends React.Component{
                             
                             <TextInput
                                 placeholder="Last name"
-                                style={styles.inputModal}
+                                style={styles.input}
                                 value={this.state.lastName}
                                 onChangeText={(text)=>{
                                     this.setState({
@@ -95,7 +92,7 @@ export default class SignUpLoginScreen extends React.Component{
                             
                             <TextInput
                                 placeholder="Mobile Number"
-                                style={styles.inputModal}
+                                style={styles.input}
                                 value={this.state.mobile}
                                 keyboardType={"numeric"}
                                 onChangeText={(text)=>{
@@ -107,7 +104,7 @@ export default class SignUpLoginScreen extends React.Component{
                             <TextInput
                                 placeholder="abc@email.com"
                                 value={this.state.emailId}
-                                style={styles.inputModal}
+                                style={styles.input}
                                 keyboardType={"email-address"}
                                 onChangeText={(text)=>{
                                     this.setState({
@@ -117,7 +114,7 @@ export default class SignUpLoginScreen extends React.Component{
                             
                             <TextInput
                                 placeholder="Address"
-                                style={styles.inputModal}
+                                style={styles.input}
                                 value={this.state.address}
                                 multiline
                                 onChangeText={(text)=>{
@@ -129,7 +126,7 @@ export default class SignUpLoginScreen extends React.Component{
                             <TextInput
                                 placeholder="User Name"
                                 value={this.state.userName}
-                                style={styles.inputModal}
+                                style={styles.input}
                                 onChangeText={(text)=>{
                                     this.setState({
                                         userName:text
@@ -139,7 +136,7 @@ export default class SignUpLoginScreen extends React.Component{
                             <TextInput
                                 placeholder="Password"
                                 value={this.state.password}
-                                style={styles.inputModal}
+                                style={styles.input}
                                 secureTextEntry={true}
                                 onChangeText={(text)=>{
                                     this.setState({
@@ -149,29 +146,30 @@ export default class SignUpLoginScreen extends React.Component{
                             <TextInput
                                 placeholder="Confirm password"
                                 value={this.state.confirmPassword}
-                                style={styles.inputModal}
+                                style={styles.input}
                                 secureTextEntry={true}
                                 onChangeText={(text)=>{
                                     this.setState({
                                         confirmPassword:text
                                     })
                                 }}/>
-
-                            <TouchableOpacity 
-                                style={styles.button}
-                                onPress={()=>{
-                                    this.userSignUp(this.state.emailId , this.state.password,this.state.confirmPassword)
-                                    this.setState({isModalVisible:false})
-                                    }}>
-                                    <Text>Sign up</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={styles.button}
-                                onPress={()=>{
-                                    this.setState({isModalVisible:false})
-                                    }}>
-                                    <Text>Cancel</Text>
-                            </TouchableOpacity>
+                            <View style={styles.container}>
+                                <TouchableOpacity 
+                                    style={styles.button}
+                                    onPress={()=>{
+                                        this.userSignUp(this.state.emailId , this.state.password,this.state.confirmPassword)
+                                        this.setState({isModalVisible:false})
+                                        }}>
+                                        <Text style={styles.text}>Registration</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                    style={styles.button}
+                                    onPress={()=>{
+                                        this.setState({isModalVisible:false})
+                                        }}>
+                                        <Text style={styles.text}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
                         </KeyboardAvoidingView>
                     </ScrollView>
             </Modal>
@@ -183,10 +181,10 @@ export default class SignUpLoginScreen extends React.Component{
     
     render(){
         return(
-            <View style={[styles.container,{flex:1,marginTop:0}]}>
+            <View style={styles.container}>
               { this.showModal()}
                 <MyHeader/>
-
+                <View style={[styles.container,{marginTop:100}]}></View>
                 <TextInput
                     placeholder="abc@email.com"
                     keyboardType={'email-address'}
@@ -209,7 +207,7 @@ export default class SignUpLoginScreen extends React.Component{
                         })
                     }}/>
 
-                <View style={{alignItems:'center'}}>
+                <View style={styles.container}>
                     <TouchableOpacity 
                     style={styles.button}
                     onPress = {()=>{this.userLogin(this.state.emailId , this.state.password)}}
@@ -235,13 +233,12 @@ export default class SignUpLoginScreen extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-       
+        justifyContent:"center",
         alignItems: 'center',
-        backgroundColor:'#E0EEF0'
     },
     
     input: {
-        backgroundColor: 'pink',
+        backgroundColor: '#FFF2F3',
         borderRadius:10,
         alignItems: 'center',
         alignSelf: 'center',
@@ -251,11 +248,11 @@ const styles = StyleSheet.create({
         borderWidth:2,
         width:"80%",
         height:60,
-        fontSize:30,
-        padding:15
+        fontSize:20,
+        padding:10
     },
     button: {
-      backgroundColor: 'lightblue',
+      backgroundColor: '#C95675',
       alignItems: 'center',
       alignSelf: 'center',
       justifyContent: 'center',
@@ -266,21 +263,8 @@ const styles = StyleSheet.create({
       height:50,
     },
     text:{
-        color:'navy',
+        color:'#FFF2F3',
         fontSize:18, 
         fontWeight:'bold'
-    },
-    inputModal: {
-        backgroundColor: 'pink',
-        borderRadius:10,
-        alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        borderRadius: 2,
-        marginTop: 10,
-        borderWidth:2,
-        width:"80%",
-        fontSize:15,
-        padding:10
-    },
+    }
   });

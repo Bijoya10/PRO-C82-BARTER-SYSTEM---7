@@ -6,8 +6,8 @@ const MyHeader=(props)=>{
   
         return(
             <Header
-                backgroundColor="#0073e5"
-                centerComponent={{text: "Barter App",style:{fontWeight:"bold",color:"white",fontSize:30}}}
+                backgroundColor="#6CB54A"
+                centerComponent={{text: "Barter App",style:{fontWeight:"bold",color:"#FFF2F3",height:50,fontSize:30}}}
             />
         )
     
