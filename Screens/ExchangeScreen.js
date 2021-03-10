@@ -13,11 +13,18 @@ export default class ExchangeScreen extends React.Component{
             description:""
         }
     }
-    addItem=(nameOfObject,description)=>{
+
+    createUniqueId(){
+        return Math.random().toString(32).slice(2,7)
+    }
+
+    addItem=()=>{
+        var exchangeId=this.createUniqueId()
         db.collection("allRequests").add({
             userName:this.state.userName,
             nameOfObject:this.state.nameOfObject,
-            description:this.state.description
+            description:this.state.description,
+            exchangeId:exchangeId
         })
         this.setState({
             nameOfObject:"",
@@ -52,7 +59,7 @@ export default class ExchangeScreen extends React.Component{
                 <TouchableOpacity
                     style={styles.button}
                     onPress={()=>{
-                            this.addItem(this.state.nameOfObject,this.state.description)}}>
+                            this.addItem()}}>
                     <Text style={styles.buttonText}>Request</Text>
                 </TouchableOpacity>
             </View>

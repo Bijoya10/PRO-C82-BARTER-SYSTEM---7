@@ -7,6 +7,9 @@ import SettingsScreen from "./Screens/SettingsScreen";
 import CustomSideBarMenu from './components/CustomSideBarMenu';
 import HomeScreen from "./Screens/HomeScreen";
 import ExchangeScreen from "./Screens/ExchangeScreen";
+import {createStackNavigator} from "react-navigation-stack"
+import UserDetailsScreen from "./Screens/UserDetails";
+import  MyBartersScreen from "./Screens/myBarters"
 
 export default class App extends React.Component {
   render() {
@@ -15,15 +18,29 @@ export default class App extends React.Component {
     );
   }
 }
+const StackNavigator=createStackNavigator({
+  BarterList:{screen:HomeScreen,
+  navigationOptions:{
+    headerShown:false
+  }
+  },
+  UserDetailsScreen:{screen:UserDetailsScreen}
+},
+{
+  initialRouteName:"BarterList"
+})
+
+
 
 var AppTabNavigator=createBottomTabNavigator({
-  HomeScreen:{screen:HomeScreen},
+  HomeScreen:{screen:StackNavigator},
   Exchange:{screen:ExchangeScreen}
 })
 
 const AppDrawerNavigator=createDrawerNavigator({
     Home:{screen:AppTabNavigator},
-    SettingsScreen:{screen:SettingsScreen}
+    SettingsScreen:{screen:SettingsScreen},
+    MyBarters:{screen:MyBartersScreen}
   },
   {
     contentComponent:CustomSideBarMenu
@@ -32,6 +49,7 @@ const AppDrawerNavigator=createDrawerNavigator({
     initialRouteName:"Home"
   }
 )
+
 
 const SwitchNavigator= createSwitchNavigator({
   SignUpLoginScreen:{screen:SignUpLoginScreen},

@@ -5,27 +5,27 @@ import firebase from 'firebase';
 import db from '../config';
 import MyHeader from "../components/MyHeader"
 
-export default class HomeScreen extends Component{
+export default class MyBartersScreen extends Component{
   constructor(){
     super()
     this.state = {
-      ExchangeObjectList : []
+      myBartersList : [],
+      email:firebase.auth().currentUser.email
     }
   this.requestRef= null
   }
 
-  getExchangeObjectList =()=>{
-    this.requestRef = db.collection("allRequests")
-    .onSnapshot((snapshot)=>{
-      var ExchangeObjectList = snapshot.docs.map(document => document.data());
+  getMyBartersList =()=>{
+    this.requestRef = db.collection("myBarters").where("exchangerEmailId","==",this.state.email).onSnapshot((snapshot)=>{
+      var myBartersList = snapshot.docs.map(document => document.data());
       this.setState({
-        ExchangeObjectList : ExchangeObjectList
+        myBartersList : myBartersList
       });
     })
   }
 
   componentDidMount(){
-    this.getExchangeObjectList()
+    this.getMyBartersList()
   }
 
   componentWillUnmount(){
@@ -38,17 +38,9 @@ export default class HomeScreen extends Component{
     return (
       <ListItem
         key={i}
-        title={item.nameOfObject}
-        subtitle={item.description}
+        title={"Exchanger : "+item.exchangerName}
+        subtitle={"Item : "+item.nameOfObject}
         titleStyle={{ color: 'black', fontWeight: 'bold' }}
-        rightElement={
-            <TouchableOpacity style={styles.button} onPress={()=>{
-              this.props.navigation.navigate("UserDetailsScreen",{"details":item})
-              console.log(item)
-            }}>
-              <Text style={{color:'#ffff'}}>View</Text>
-            </TouchableOpacity>
-          }
         bottomDivider
       />
     )
@@ -61,7 +53,7 @@ export default class HomeScreen extends Component{
        
         <View style={{flex:1}}>
           {
-            this.state.ExchangeObjectList.length === 0
+            this.state.myBartersList.length === 0
             ?(
               <View style={styles.subContainer}>
                 <Text style={{ fontSize: 20}}>List Of All Requested Books</Text>
@@ -70,11 +62,11 @@ export default class HomeScreen extends Component{
             :(
               <FlatList
                 keyExtractor={this.keyExtractor}
-                data={this.state.ExchangeObjectList}
+                data={this.state.myBartersList}
                 renderItem={this.renderItem}
               />
             )
-          }
+            }
         </View>
       </View>
     )

@@ -1,13 +1,16 @@
 import firebase from "firebase";
 require("@firebase/firestore");
 var firebaseConfig = {
-  apiKey: "AIzaSyA8pelcSnUULbimg__LpezRa03ZmIDI3rI",
-  authDomain: "barterapp-44889.firebaseapp.com",
-  databaseURL: "https://barterapp-44889.firebaseio.com",
-  projectId: "barterapp-44889",
-  storageBucket: "barterapp-44889.appspot.com",
-  messagingSenderId: "537363701008",
-  appId: "1:537363701008:web:bd15b49659ebf2f6279995"
+
+  apiKey: "AIzaSyDGqQBleOp6dON-OWuXXrnz5QFzyPaZtsU",
+    authDomain: "booksanta-826a1.firebaseapp.com",
+    projectId: "booksanta-826a1",
+    storageBucket: "booksanta-826a1.appspot.com",
+    messagingSenderId: "716398074506",
+    appId: "1:716398074506:web:9eb28b059d358303ab2b73",
+ 
+  databaseURL: "https://booksanta-826a1.firebaseio.com",
+  
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
